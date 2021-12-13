@@ -57,7 +57,9 @@ ROOT_URLCONF = 'studybud.urls'
 TEMPLATES: list[dict[str, str | bool | dict[str, list[str]] | list[Any]]] = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / 'templates'
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
