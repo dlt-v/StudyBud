@@ -1,24 +1,9 @@
-from typing import Any, List
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpRequest
-from typing import List, Dict, Any
 from .models import Room
-# Create your views here.
 
-# rooms: List[Dict[Any, Any]] = [
-#     {
-#         'id': 0,
-#         'name': 'Let\'s learn python!'
-#     },
-#     {
-#         'id': 1,
-#         'name': 'Design with me'
-#     },
-#     {
-#         'id': 2,
-#         'name': 'Frontend developers'
-#     }
-# ]
+from .forms import RoomForm
+# Create your views here.
 
 
 def home(request: HttpRequest) -> HttpResponse:
@@ -31,3 +16,16 @@ def room(request: HttpRequest, pk: str) -> HttpResponse:
     room = Room.objects.get(id=pk)
     context = {'room': room}
     return render(request, 'base/room.html', context)
+
+
+def createRoom(request: HttpRequest):
+    form = RoomForm()
+    
+    if request.method == 'POST':
+        form = RoomForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+
+    context = {'form': form}
+    return render(request, 'base/room_form.html', context)
