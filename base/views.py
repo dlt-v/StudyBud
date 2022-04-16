@@ -5,6 +5,11 @@ from .forms import RoomForm
 # Create your views here.
 
 
+def login_page(request):
+    context = {}
+    return render(request, 'base/login_register.html', context)
+
+
 def home(request):
     query = request.GET.get('q') if request.GET.get('q') != None else ''
     rooms = Room.objects.filter(
@@ -20,7 +25,7 @@ def home(request):
         'rooms': rooms,
         'topics': topics,
         'room_count': room_count
-        }
+    }
     return render(request, 'base/home.html', context)
 
 
