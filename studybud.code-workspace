@@ -4,5 +4,9 @@
             "path": "."
         }
     ],
-    "settings": {}
+    "settings": {
+        "python.pythonPath": "env/Scripts/python.exe",
+        "python.defaultInterpreterPath": "env/Scripts/python.exe",
+
+    }
 }
