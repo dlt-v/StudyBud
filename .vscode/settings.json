@@ -1,5 +1,6 @@
 {
     "vsicons.associations.files": [
     
-    ]
+    ],
+    "editor.fontLigatures": true
 }
