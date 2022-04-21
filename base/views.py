@@ -1,8 +1,9 @@
 from email import message
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .models import Room, Topic
@@ -64,6 +65,7 @@ def room(request, pk):
     return render(request, 'base/room.html', context)
 
 
+@login_required(login_url='login')
 def create_room(request):
     form = RoomForm()
 
@@ -77,9 +79,13 @@ def create_room(request):
     return render(request, 'base/room_form.html', context)
 
 
-def update_room(request, pk):
+@login_required(login_url='login')
+def update_room(request: HttpRequest, pk: str):
     room = Room.objects.get(id=pk)
     form = RoomForm(instance=room)
+
+    if request.user != room.host:
+        return HttpResponse('You are not the owner of this room.')
 
     if request.method == 'POST':
         form = RoomForm(request.POST, instance=room)
@@ -91,8 +97,13 @@ def update_room(request, pk):
     return render(request, 'base/room_form.html', context)
 
 
-def delete_room(request, pk):
+@login_required(login_url='login')
+def delete_room(request: HttpRequest, pk):
     room = Room.objects.get(id=pk)
+
+    if request.user != room.host:
+        return HttpResponse('You are not the owner of this room.')
+
     if request.method == "POST":
         room.delete()
         return redirect('home')
