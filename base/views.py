@@ -84,6 +84,20 @@ def home(request):
     return render(request, 'base/home.html', context)
 
 
+def user_profile(request: HttpRequest, pk: str) -> HttpResponse:
+    user = User.objects.get(id=pk)
+    rooms = user.room_set.all()
+    room_messages = user.message_set.all()
+    topics = Topic.objects.all()
+    context = {
+        'user': user,
+        'rooms': rooms,
+        'room_messages': room_messages,
+        'topics': topics
+    }
+    return render(request, 'base/profile.html', context)
+
+
 def room(request: HttpRequest, pk):
     room = Room.objects.get(id=pk)
     room_messages = room.message_set.all()

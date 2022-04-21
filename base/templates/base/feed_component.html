@@ -1,8 +1,9 @@
-
 <div>
     {% for room in rooms %}
     <div>
-        <span>@{{room.host.username}}</span>
+        <a href="{% url 'user-profile' room.host.id %}"
+            >@{{room.host.username}}</a
+        >
         <h5>
             <!-- {{room.id}} --
                 <a href="/room/{{room.id}}">{{room.name}}</a>  -->
