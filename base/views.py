@@ -122,13 +122,15 @@ def room(request: HttpRequest, pk):
 
 
 @login_required(login_url='login')
-def create_room(request):
+def create_room(request: HttpRequest):
     form = RoomForm()
 
     if request.method == 'POST':
         form = RoomForm(request.POST)
         if form.is_valid():
-            form.save()
+            room = form.save(commit=False)
+            room.host = request.user
+            room.save()
             return redirect('home')
 
     context = {'form': form}
