@@ -18,7 +18,9 @@ def login_page(request: HttpRequest):
         return redirect('home')
 
     if request.method == 'POST':
-        username = request.POST.get('username').lower()
+        username = request.POST.get('username')
+        if username is not None:
+            username.lower()
         password = request.POST.get('password')
 
         try:
