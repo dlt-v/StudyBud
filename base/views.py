@@ -71,7 +71,8 @@ def home(request):
 
     topics = Topic.objects.all()
     room_count = rooms.count()
-    room_messages = Message.objects.all()
+    room_messages = Message.objects.filter(
+        Q(room__topic__name__icontains=query))
     # room_messages = Message.objects.all().order_by("-created")
 
     context = {
