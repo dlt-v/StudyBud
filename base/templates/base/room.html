@@ -1,5 +1,6 @@
 {% extends 'main.html' %} {% block content %}
 <h1>{{room.name}}</h1>
+{% if request.user == room.host %}
 <a href="{% url 'update-room' room.id %}">Edit</a>
 <a href="{% url 'delete-room' room.id %}">Delete</a>
-{% endblock content %}
+{% endif %} {% endblock content %}
