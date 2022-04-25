@@ -219,7 +219,7 @@ def update_user(request: HttpRequest):
     return render(request, 'base/update_user.html', context)
 
 
-def topicsPage(request: HttpRequest):
+def topics_page(request: HttpRequest):
     query = request.GET.get('q') if request.GET.get('q') != None else ''
 
     topics = Topic.objects.filter(name__icontains=query)
@@ -227,3 +227,11 @@ def topicsPage(request: HttpRequest):
         'topics': topics
     }
     return render(request, 'base/topics.html', context)
+
+
+def activities_page(request: HttpRequest):
+    room_messages = Message.objects.all()
+    context = {
+        'room_messages': room_messages
+    }
+    return render(request, 'base/activity.html', context)
